@@ -1,23 +1,29 @@
 'use strict'
 
-const { dynamodb } = require('./factory')
+const { ApolloServer, gql } = require('apollo-server-lambda')
 
-module.exports.hello = async (event) => {
-  const heroes = await dynamodb.scan({
-    TableName: 'heroes'
-  }).promise()
+const typeDefs = gql`
+  type Query {
+    hello: String
+  }
+`
 
-  const skills = await dynamodb.scan({
-    TableName: 'skills'
-  }).promise()
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify(
-      {
-        heroes,
-        skills
-      }
-    )
+const resolvers = {
+  Query: {
+    hello: () => 'Hello world!'
   }
 }
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers
+})
+
+exports.handler = server.createHandler({
+  expressGetMiddlewareOptions: {
+    cors: {
+      origin: '*',
+      credentials: true
+    }
+  }
+})
