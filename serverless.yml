@@ -39,6 +39,8 @@ functions:
       - http:
           path: /graphql
           method: any
+  teste:
+    handler: handler.teste
 
 resources:
   Resources:
