@@ -9,7 +9,6 @@ provider:
   environment:
     HEROES_TABLE: heroes
     SKILLS_TABLE: skills
-    LOCALSTACK_HOST: localhost
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -72,4 +71,3 @@ resources:
 
 plugins:
   - serverless-offline
-  - serverless-localstack
