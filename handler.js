@@ -3,30 +3,21 @@
 const HeroFactory = require('./src/core/factories/heroFactory')
 const SkillFactory = require('./src/core/factories/skillFactory')
 
-const { ApolloServer, gql } = require('apollo-server-lambda')
+const { ApolloServer } = require('apollo-server-lambda')
 
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`
+const schema = require('./src/graphql')
 
-const resolvers = {
-  Query: {
-    hello: () => 'Hello world!'
-  }
-}
-
+// TODO: Deixar somente no local
 const server = new ApolloServer({
-  typeDefs,
-  resolvers
+  schema,
+  introspection: true,
+  playground: true
 })
 
 exports.handler = server.createHandler({
   expressGetMiddlewareOptions: {
     cors: {
-      origin: '*',
-      credentials: true
+      origin: '*'
     }
   }
 })
