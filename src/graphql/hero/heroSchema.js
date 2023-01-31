@@ -1,9 +1,26 @@
 module.exports = `
-  type Query {
-    getHero: String
-  }
+type Skill {
+    id: String
+    name: String
+    value: Int
+}
+type Hero {
+    id: String
+    name: String
+    skills(id: String): [Skill]
+}
 
-  type Mutation {
-    createHero: String
-  }
+type Query {
+    getHero(
+        id: String
+        name: String
+    ): [Hero]
+}
+
+type Mutation {
+    createHero(
+        name: String!,
+        skills: [String]!
+    ): String
+}
 `

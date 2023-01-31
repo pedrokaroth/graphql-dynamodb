@@ -1,12 +1,13 @@
 module.exports = {
   Query: {
     async getSkill (root, args, context, info) {
-      return 'Hello World'
+      return context.Skill.findAll(args)
     }
   },
   Mutation: {
     async createSkill (root, args, context, info) {
-      return 'Hello World'
+      const { id } = await context.Skill.create(args)
+      return id
     }
   }
 }

@@ -1,9 +1,22 @@
 module.exports = `
-  type Query {
-    getSkill: String
-  }
+type Skill {
+    id: String
+    name: String
+    value: Int
+}
 
-  type Mutation {
-    createSkill: String
-  }
+type Query {
+    getSkill(
+        id: String
+        name: String
+        value: Int
+    ): [Skill]
+}
+
+type Mutation {
+    createSkill(
+        name: String!,
+        value: Int!
+    ): String
+}
 `

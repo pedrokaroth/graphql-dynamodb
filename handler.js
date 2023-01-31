@@ -7,11 +7,14 @@ const { ApolloServer } = require('apollo-server-lambda')
 
 const schema = require('./src/graphql')
 
-// TODO: Deixar somente no local
 const server = new ApolloServer({
   schema,
-  introspection: true,
-  playground: true
+  context: async () => ({
+    Hero: await HeroFactory.createInstace(),
+    Skill: await SkillFactory.createInstance()
+  }),
+  introspection: process.env.IS_LOCAL,
+  playground: process.env.IS_LOCAL
 })
 
 exports.handler = server.createHandler({
@@ -21,20 +24,3 @@ exports.handler = server.createHandler({
     }
   }
 })
-
-module.exports.teste = async function () {
-  const skillFactory = await SkillFactory.createInstance()
-  const heroFactory = await HeroFactory.createInstace()
-
-  const skill = await skillFactory.create({ name: 'novo teste', value: 10 })
-  console.log('Inserindo item', skill)
-
-  const buscaSkill = await skillFactory.findById(skill.id)
-  console.log(buscaSkill)
-
-  const hero = await heroFactory.create({ name: 'novo teste', skills: [skill.id] })
-  console.log('Inserindo hero', hero)
-
-  const buscaHero = await heroFactory.findById(hero.id)
-  console.log(buscaHero)
-}
