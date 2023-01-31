@@ -12,9 +12,9 @@ authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
 -->
 
 
-# Serverless Framework AWS NodeJS Example
+# Graphql, Apollo Server and Designs Patterns
 
-This template demonstrates how to deploy a NodeJS function running on AWS Lambda using the traditional Serverless Framework. The deployed function does not include any event definitions as well as any kind of persistence (database). For more advanced configurations check out the [examples repo](https://github.com/serverless/examples/) which includes integrations with SQS, DynamoDB or examples of functions that are triggered in `cron`-like manner. For details about configuration of specific `events`, please refer to our [documentation](https://www.serverless.com/framework/docs/providers/aws/events/).
+This project was created with the aim of training some new technologies, such as [Graphql](https://graphql.org/) and [dynamoDB](https://aws.amazon.com/pt/dynamodb/). To build the application, the [Repository](https://www.cosmicpython.com/book/chapter_02_repository.html), [Factory](https://refactoring.guru/design-patterns/factory-method) and [DI](https://www.4mage.com.br/design-pattern-dependency-injection/) design patterns were applied, along with the [apollo server](https://www.apollographql.com/docs/apollo-server/) and [dynamoose](https://dynamoosejs.com/getting_started/Introduction) libraries.
 
 ## Usage
 
@@ -29,44 +29,43 @@ $ serverless deploy
 After running deploy, you should see output similar to:
 
 ```bash
-Deploying aws-node-project to stage dev (us-east-1)
+Deploying graphql-dynamodb to stage dev (us-east-1)
 
-✔ Service deployed to stack aws-node-project-dev (112s)
+✔ Service deployed to stack graphql-dynamodb-dev (149s)
 
+endpoint: ANY - https://vhe780ahdb.execute-api.us-east-1.amazonaws.com/dev/graphql
 functions:
-  hello: aws-node-project-dev-hello (1.5 kB)
+  graphql: graphql-dynamodb-dev-graphql (25 MB)
+
 ```
 
 ### Invocation
 
-After successful deployment, you can invoke the deployed function by using the following command:
+After successful deployment, you can acess the deployed function by using the following command:
 
 ```bash
-serverless invoke --function hello
+serverless offline
 ```
 
 Which should result in response similar to the following:
 
-```json
-{
-    "statusCode": 200,
-    "body": "{\n  \"message\": \"Go Serverless v3.0! Your function executed successfully!\",\n  \"input\": {}\n}"
-}
+```bash
+Starting Offline at stage dev (us-east-1)
+
+Offline [http for lambda] listening on http://localhost:3002
+Function names exposed for local invocation by aws-sdk:
+           * graphql: graphql-dynamodb-dev-graphql
+
+   ┌───────────────────────────────────────────────────────────────────────────┐
+   │                                                                           │
+   │   ANY | http://localhost:3000/dev/graphql                                 │
+   │   POST | http://localhost:3000/2015-03-31/functions/graphql/invocations   │
+   │                                                                           │
+   └───────────────────────────────────────────────────────────────────────────┘
+
+Server ready: http://localhost:3000 🚀
 ```
 
 ### Local development
 
-You can invoke your function locally by using the following command:
-
-```bash
-serverless invoke local --function hello
-```
-
-Which should result in response similar to the following:
-
-```
-{
-    "statusCode": 200,
-    "body": "{\n  \"message\": \"Go Serverless v3.0! Your function executed successfully!\",\n  \"input\": \"\"\n}"
-}
-```
+You can access [http://localhost:3000/dev/graphql](http://localhost:3000/dev/graphql) to see the apollo server.
